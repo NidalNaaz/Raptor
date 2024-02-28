@@ -29,6 +29,13 @@ import java.util.Random ;
         }
     }
 
+    public void setElement ( int r , int c )
+    {
+	      Scanner matrix1 = new Scanner ( System.in ) ;
+              value[ r ][ c ] = matrix1.nextDouble( ) ;
+
+    }
+
 
 
     public double getElement ( int r , int c )
@@ -74,67 +81,79 @@ import java.util.Random ;
         System.out.println("" );
     }
 
-    public void addElements ( Matrix M2 ) 
+    public void addElements ( Matrix M1 , Matrix M2 ) 
     {
-        //M2.setElements( row, coulumn ) ;
+	Matrix result = new Matrix ( M1.row , M1.coulumn ) ;
 
-        for ( i = 0 ; i < row ; i++ )
-        {
-            for ( j = 0 ; j < coulumn ; j++ )
-                {
-                    System.out.print( value[i][j] + M2.value[i][j] + " ") ;
-                }
+	if ( M1.row != M2.row || M1.coulumn != M2.coulumn )
+	{
+		System.out.println(" Not possible. " ) ;
+	}
+	else 
+	{
+		
+	        for ( i = 0 ; i < row ; i++ )
+	        {
+	            for ( j = 0 ; j < coulumn ; j++ )
+	                {
+	                    System.out.print( M1.value[i][j] + M2.value[i][j] + " ") ;
+	                }
+	
+	            System.out.println("") ;
+	        }
+	        System.out.println("" );
+	
+	}
 
-            System.out.println("") ;
-        }
-        System.out.println("" );
-
-    }
-
-    public void subtractElements ( Matrix M3 ) 
+     public void subtractElements ( Matrix M1 , Matrix M2 ) 
     {
-        //M3.setElements( row, coulumn ) ;
+	Matrix result = new Matrix ( M1.row , M1.coulumn ) ;
 
-        for ( i = 0 ; i < row ; i++ )
-        {
-            for ( j = 0 ; j < coulumn ; j++ )
-                {
-                    System.out.print( value[i][j] - M3.value[i][j] + " ") ;
-                }
+	if ( M1.row != M2.row || M1.coulumn != M2.coulumn )
+	{
+		System.out.println(" Not possible. " ) ;
+	}
+	else 
+	{
+		
+	        for ( i = 0 ; i < row ; i++ )
+	        {
+	            for ( j = 0 ; j < coulumn ; j++ )
+	                {
+	                    System.out.print( M1.value[i][j] - M2.value[i][j] + " ") ;
+	                }
+	
+	            System.out.println("") ;
+	        }
+	        System.out.println("" );
+	
+	}
 
-            System.out.println("") ;
 
-        }
-        System.out.println("" );
-
-    }
-
-
-    public void multiplyElements ( Matrix M2 ) 
+    public Matrix multiplyElements (  Matrix M1 , Matrix M2 ) 
     {
-        //M2.setElements( row, coulumn ) ;
-        int k = 0 ;
+	Matrix result = new Matrix ( M1.row , M2.coulumn ) ;
 
-        for ( int i = 0 ; i < row ; i++ )
-        {
-            
-            for ( k = 0 ; k < coulumn ;k++ ) 
-            {
-                double sum = 0 , p ;
-
-                for ( j = 0 ; j < coulumn ; j++ )
-                {
-                    p = value[i][j] * M2.value[j][k] ;
-                    sum = sum + p ;
-                }
-
-                System.out.print(sum + " " ) ;
-            }
-            System.out.println(" " ) ;
-        }
-    }
-
-
+	if ( M1.coulumn != M2.row )
+	{
+		System.out.println(" Not possible. " ) ;
+	}
+	else 
+	{
+		
+	        for ( i = 0 ; i < M1.row ; i++ )
+	        {
+	            for ( j = 0 ; j < coulumn ; j++ )
+			{
+				for ( int k = 0 ; k < M1.coulumn ; k++ )
+	                {
+	                    result.value[i][j] += M1.value[i][k] * M2.data[k][j] ;
+	                }
+			}
+		}
+	return result ;
+	
+	}
         
     
     public Matrix ( )
@@ -286,7 +305,7 @@ public class SquareMatrix extends Matrix
 
     public static void main(String[] args)
  {
-    int rows1 , coulumns1 = 3 ;
+    int rows1, rows2 , coulumns1 , coulumns2 ;
     int questionNo ;
 
     Matrix myMatrix1;
@@ -304,15 +323,23 @@ public class SquareMatrix extends Matrix
         Scanner myCoulumn1 = new Scanner (System.in) ;
         coulumns1 = myCoulumn1.nextInt( ) ;
     
+	System.out.println( "Enter the number of rows: " ) ;
+        Scanner myRow2 = new Scanner ( System.in ) ;
+        rows2 = myRow2.nextInt( ) ;
+    
+        System.out.println("Enter the number of coulumns: ") ;
+        Scanner myCoulumn2 = new Scanner (System.in) ;
+        coulumns2 = myCoulumn2.nextInt( ) ;
+
         myMatrix1 = new Matrix(rows1 , coulumns1 ) ;
-	myMatrix2 = new Matrix(rows1 , coulumns1 ) ;
+	myMatrix2 = new Matrix(rows2 , coulumns2 ) ;
 
     switch ( questionNo )
     {
         case 1 :
 
         
-        myMatrix1.getElement( 1,2) ;
+        myMatrix1.setElement(1,1) ;
         myMatrix1.transpose( ) ;
         myMatrix1.stringElements( ) ;
 	
@@ -350,8 +377,7 @@ public class SquareMatrix extends Matrix
 
         System.out.println("") ;
 
-        //myMatrix1.setElements( rows1 , coulumns1 ) ;
-        myMatrix1.getElement(2,1 ) ;
+        myMatrix1.getElement(1,1 ) ;
 
         System.out.println("") ;
 
@@ -394,11 +420,12 @@ public class SquareMatrix extends Matrix
 
         break ;
     }
-
+	
+	System.out.println("") ;
+	System.out.println( "Child Class Problem: ") ;
  	SquareMatrix squareMatrixx = new SquareMatrix(3);
 
-    //squareMatrixx.squareMatrix(3);
-    System.out.println(squareMatrixx.isSymmetric(3)) ;
-    System.out.println(squareMatrixx.isSkew(3)) ;
+    	System.out.println(squareMatrixx.isSymmetric(3) + " about it being symmetric. ") ;
+    	System.out.println(squareMatrixx.isSkew(3) + " about it being skew symmetric. " ) ;
  }
 }
