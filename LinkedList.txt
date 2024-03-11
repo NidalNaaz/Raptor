@@ -1,0 +1,77 @@
+#include <iostream>
+using namespace std;
+
+class Node
+{
+    int data;
+    Node* link;
+
+public:
+    Node() {
+        this->data = 0;
+        this->link = nullptr;
+    }
+
+    Node(int data) {
+        this->data = data;
+        this->link = nullptr;
+    }
+
+    void setData(int x) {
+        this->data = x;
+    }
+
+    int getData() {
+        return data;
+    }
+
+    void setLink(Node* link) {
+        this->link = link;
+    }
+
+    Node* getLink() {
+        return link;
+    }
+};
+
+class LinkedList {
+
+    Node* head;
+
+public:
+    LinkedList() {
+        head = new Node();
+    }
+
+    void createList() {
+        Node* current = head;
+        char choice;
+        do {
+            int x;
+            cout << "Enter data: ";
+            cin >> x;
+            Node* node = new Node(x);
+            current->setLink(node);
+            current = node;
+            cout << "Do you want to add more? (y/n): ";
+            cin >> choice;
+        } while (choice == 'y' || choice == 'Y');
+    }
+
+    ~LinkedList() {
+        Node* current = head;
+        while (current != nullptr) {
+            Node* temp = current;
+            current = current->getLink();
+            delete temp;
+        }
+        head = nullptr;
+    }
+};
+
+int main() {
+    LinkedList LLobj;
+    LLobj.createList();
+
+    return 0;
+}
